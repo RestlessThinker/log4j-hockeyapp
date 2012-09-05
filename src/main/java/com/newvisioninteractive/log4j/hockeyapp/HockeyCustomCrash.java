@@ -9,7 +9,7 @@ import java.io.File;
  * @author lpenaflor
  * 
  */
-public class HockeyKitCustomCrash {
+public class HockeyCustomCrash {
     
     private String apiKey;
     private String environmentName;
@@ -41,7 +41,7 @@ public class HockeyKitCustomCrash {
     private String contact;
 
 
-    public HockeyKitCustomCrash( final String apiKey_,
+    public HockeyCustomCrash( final String apiKey_,
 	    final String environment_,
 	    final File log_,
 	    final File description_,

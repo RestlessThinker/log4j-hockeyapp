@@ -16,7 +16,7 @@ import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-public class HockeyKitCrashUploader {
+public class HockeyCrashUploader {
 
     private final static String PARAM_LOG = "log";
     private final static String PARAM_DESCRIPTION = "description";
@@ -27,7 +27,7 @@ public class HockeyKitCrashUploader {
     private final static String MIME_TEXT_PLAIN = "text/plain";
 
 
-    public void upload( HockeyKitCustomCrash crash_ ) throws UnsupportedEncodingException,
+    public void upload( HockeyCustomCrash crash_ ) throws UnsupportedEncodingException,
 	    ClientProtocolException,
 	    IOException {
 

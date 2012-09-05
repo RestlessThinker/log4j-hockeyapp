@@ -6,9 +6,9 @@ import org.apache.log4j.AppenderSkeleton;
 import org.apache.log4j.Level;
 import org.apache.log4j.spi.LoggingEvent;
 
-public class HockeyKitAppender extends AppenderSkeleton {
+public class HockeyAppender extends AppenderSkeleton {
 
-    private HockeyKitCrashUploader hockeyKitUploader = new HockeyKitCrashUploader();
+    private HockeyCrashUploader hockeyKitUploader = new HockeyCrashUploader();
 
     private String apiKey;
 
@@ -17,12 +17,12 @@ public class HockeyKitAppender extends AppenderSkeleton {
     private boolean enabled;
 
 
-    public HockeyKitAppender() {
+    public HockeyAppender() {
 	setThreshold( Level.ERROR );
     }
 
 
-    public HockeyKitAppender( final String apiKey_ ) {
+    public HockeyAppender( final String apiKey_ ) {
 	setApi_key( apiKey_ );
     }
 
@@ -52,8 +52,8 @@ public class HockeyKitAppender extends AppenderSkeleton {
     }
 
 
-    public HockeyKitCustomCrash getCrash( final Throwable throwable_ ) throws IOException {
-	return new HockeyKitCrashBuilder( apiKey,
+    public HockeyCustomCrash getCrash( final Throwable throwable_ ) throws IOException {
+	return new HockeyCrashBuilder( apiKey,
 					  env,
 					  throwable_ ).newCrash();
     }

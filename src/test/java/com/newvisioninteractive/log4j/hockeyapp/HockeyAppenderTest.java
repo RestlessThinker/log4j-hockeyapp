@@ -8,7 +8,7 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-public class HockeyKitAppenderTest {
+public class HockeyAppenderTest {
 
     private static final String ERROR_MESSAGE = "error message";
 
@@ -16,9 +16,9 @@ public class HockeyKitAppenderTest {
     @Test
     public void testNewAppender() throws IOException {
 	
-	HockeyKitAppender appender = new HockeyKitAppender();
+	HockeyAppender appender = new HockeyAppender();
 	
-	HockeyKitCustomCrash crash = appender.getCrash( getStubException( ERROR_MESSAGE ) );
+	HockeyCustomCrash crash = appender.getCrash( getStubException( ERROR_MESSAGE ) );
 	assertThat( crash, is( notNullValue() ) );
     }
 

@@ -9,7 +9,7 @@ import java.util.Date;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
 
-public class HockeyKitCrashBuilder {
+public class HockeyCrashBuilder {
 
     private String apiKey;
     private String environmentName;
@@ -22,7 +22,7 @@ public class HockeyKitCrashBuilder {
     private File attachment;
 
 
-    public HockeyKitCrashBuilder( final String apiKey_,
+    public HockeyCrashBuilder( final String apiKey_,
 	    final String environmentName_,
 	    final Throwable throwable_ ) throws IOException {
 	this.apiKey = apiKey_;
@@ -32,7 +32,7 @@ public class HockeyKitCrashBuilder {
     }
 
 
-    public HockeyKitCrashBuilder( final String apiKey_,
+    public HockeyCrashBuilder( final String apiKey_,
 	    final String environmentName_,
 	    final Throwable throwable_,
 	    final String userID_,
@@ -43,7 +43,7 @@ public class HockeyKitCrashBuilder {
     }
 
 
-    public HockeyKitCrashBuilder( final String apiKey_,
+    public HockeyCrashBuilder( final String apiKey_,
 	    final String environmentName_,
 	    final Throwable throwable_,
 	    final String description_,
@@ -58,8 +58,8 @@ public class HockeyKitCrashBuilder {
     }
 
 
-    public HockeyKitCustomCrash newCrash() {
-	return new HockeyKitCustomCrash( apiKey,
+    public HockeyCustomCrash newCrash() {
+	return new HockeyCustomCrash( apiKey,
 					 environmentName,
 					 log,
 					 description,
