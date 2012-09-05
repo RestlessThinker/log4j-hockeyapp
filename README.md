@@ -4,6 +4,7 @@ log4j-hockeyapp
 A log4j appender for hockeyapp.net custom crash reports
 
 Example log4j config file using this appender:
+
     <appender name="HOCKEY" class="com.newvisioninteractive.log4j.hockeyapp.HockeyAppender">
     	<param name="api_key" value="<your key here>" />
     	<param name="env" value="development" />
