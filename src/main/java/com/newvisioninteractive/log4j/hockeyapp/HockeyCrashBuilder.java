@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
 
-import javax.naming.NameNotFoundException;
-
 import org.apache.commons.lang.exception.ExceptionUtils;
 
 public class HockeyCrashBuilder {

@@ -2,8 +2,6 @@ package com.newvisioninteractive.log4j.hockeyapp;
 
 import java.io.IOException;
 
-import javax.naming.NameNotFoundException;
-
 import org.apache.log4j.AppenderSkeleton;
 import org.apache.log4j.Level;
 import org.apache.log4j.spi.LoggingEvent;
@@ -70,9 +68,12 @@ public class HockeyAppender extends AppenderSkeleton {
 
     public HockeyCustomCrash getCrash( final Throwable throwable_,
 				       final String userID_,
-				       final String message_ ) throws IOException,
-	    NameNotFoundException {
-	return new HockeyCrashBuilder( apiKey, env, throwable_, userID_, message_ ).newCrash();
+				       final String message_ ) throws IOException {
+	return new HockeyCrashBuilder( apiKey,
+				       env,
+				       throwable_,
+				       userID_,
+				       message_ ).newCrash();
     }
 
 
@@ -86,7 +87,13 @@ public class HockeyAppender extends AppenderSkeleton {
     }
 
 
-    private String getUserID() {
+    /**
+     * Should be overridden as getting userID varies by platform ie
+     * Android/Servlet
+     * 
+     * @return
+     */
+    public String getUserID() {
 	// YMMV here
 	return "test@test.com";
     }
