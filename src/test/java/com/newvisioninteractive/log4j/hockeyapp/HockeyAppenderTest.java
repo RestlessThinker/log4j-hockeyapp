@@ -18,7 +18,7 @@ public class HockeyAppenderTest {
 	
 	HockeyAppender appender = new HockeyAppender();
 	
-	HockeyCustomCrash crash = appender.getCrash( getStubException( ERROR_MESSAGE ) );
+	HockeyCustomCrash crash = appender.getCrash( getStubException( ERROR_MESSAGE ), "userID", "description" );
 	assertThat( crash, is( notNullValue() ) );
     }
 

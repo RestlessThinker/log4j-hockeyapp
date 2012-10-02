@@ -26,46 +26,57 @@ public class HockeyCrashUploader {
 
     private final static String MIME_TEXT_PLAIN = "text/plain";
 
+    private HockeyCustomCrash crash;
 
-    public void upload( HockeyCustomCrash crash_ ) throws UnsupportedEncodingException,
+
+    public void setCrash( HockeyCustomCrash crash ) {
+	this.crash = crash;
+    }
+
+
+    public HockeyCustomCrash getCrash() {
+	return this.crash;
+    }
+
+
+    public void upload() throws UnsupportedEncodingException,
 	    ClientProtocolException,
 	    IOException {
 
-	if( crash_.getLog() == null )
+	if( crash.getLog() == null )
 	    return;
 
 	HttpClient client = new DefaultHttpClient();
 	MultipartEntity reqEntity = new MultipartEntity();
 
-	FileBody bin = new FileBody( crash_.getLog(), MIME_TEXT_PLAIN );
+	FileBody bin = new FileBody( crash.getLog(), MIME_TEXT_PLAIN );
 	reqEntity.addPart( PARAM_LOG, bin );
 
-	if( crash_.getDescription() != null ) {
+	if( crash.getDescription() != null ) {
 	    reqEntity.addPart( PARAM_DESCRIPTION,
-			       new FileBody( crash_.getDescription(),
+			       new FileBody( crash.getDescription(),
 					     MIME_TEXT_PLAIN ) );
 	}
 
-	if( crash_.getAttachment0() != null ) {
+	if( crash.getAttachment0() != null ) {
 	    reqEntity.addPart( PARAM_ATTACHMENT0,
-			       new FileBody( crash_.getAttachment0(),
+			       new FileBody( crash.getAttachment0(),
 					     MIME_TEXT_PLAIN ) );
 	}
 
-	if( crash_.getUserID() != null ) {
-	    reqEntity.addPart( PARAM_USERID,
-			       new StringBody( crash_.getUserID() ) );
+	if( crash.getUserID() != null ) {
+	    reqEntity.addPart( PARAM_USERID, new StringBody( crash.getUserID() ) );
 	}
 
-	if( crash_.getContact() != null ) {
+	if( crash.getContact() != null ) {
 	    reqEntity.addPart( PARAM_CONTACT,
-			       new StringBody( crash_.getContact() ) );
+			       new StringBody( crash.getContact() ) );
 	}
 
 	URI uri = null;
 	try {
 	    uri = new URI( "https://rink.hockeyapp.net/api/2/apps/" +
-		    crash_.getApiKey() + "/crashes/upload" );
+		    crash.getApiKey() + "/crashes/upload" );
 	} catch( URISyntaxException e ) {
 
 	}
@@ -82,12 +93,41 @@ public class HockeyCrashUploader {
 
 	if( responseEntity == null || statusCode != 201 ) {
 	    // something failed
+	    System.out.println( "error sending crashlog to hockeyapp with status code: " +
+		    statusCode );
+	    if( crash.getLog() != null ) {
+		if( crash.getLog().exists() ) {
+		    crash.getLog().delete();
+		}
+	    }
+	    if( crash.getDescription() != null ) {
+		if( crash.getDescription().exists() ) {
+		    crash.getDescription().delete();
+		}
+	    }
+	    if( crash.getAttachment0() != null ) {
+		if( crash.getAttachment0().exists() ) {
+		    crash.getDescription().delete();
+		}
+	    }
+
 	} else {
 	    // hooray finished
-	    crash_.getLog().delete();
-	    crash_.getDescription().delete();
-	    crash_.getAttachment0().delete();
+	    crash.getLog().delete();
+	    if( crash.getDescription() != null ) {
+		if( crash.getDescription().exists() ) {
+		    crash.getDescription().delete();
+		}
+	    }
+	    if( crash.getAttachment0() != null ) {
+		if( crash.getAttachment0().exists() ) {
+		    crash.getDescription().delete();
+		}
+	    }
+
 	}
+
+	Thread.currentThread().interrupt();
 
     }
 }

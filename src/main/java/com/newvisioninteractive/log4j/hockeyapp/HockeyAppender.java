@@ -2,6 +2,8 @@ package com.newvisioninteractive.log4j.hockeyapp;
 
 import java.io.IOException;
 
+import javax.naming.NameNotFoundException;
+
 import org.apache.log4j.AppenderSkeleton;
 import org.apache.log4j.Level;
 import org.apache.log4j.spi.LoggingEvent;
@@ -43,19 +45,34 @@ public class HockeyAppender extends AppenderSkeleton {
 
 	if( isThrowable( loggingEvent_ ) ) {
 	    try {
-		hockeyKitUploader.upload( getCrash( getThrowableFromLoggingEvent( loggingEvent_ ) ) );
+		hockeyKitUploader.setCrash( getCrash( getThrowableFromLoggingEvent( loggingEvent_ ),
+						      getUserID(),
+						      getMessageFromLoggingEvent( loggingEvent_ ) ) );
+		new Thread( new Runnable() {
+		    public void run() {
+
+			try {
+			    hockeyKitUploader.upload();
+			} catch( Exception e ) {
+			    System.out.println( e.getLocalizedMessage() );
+			    Thread.currentThread().interrupt();
+			}
+		    }
+		} ).start();
 	    } catch( Exception e ) {
 
+		System.out.println( e.getLocalizedMessage() );
 	    }
 	}
 
     }
 
 
-    public HockeyCustomCrash getCrash( final Throwable throwable_ ) throws IOException {
-	return new HockeyCrashBuilder( apiKey,
-					  env,
-					  throwable_ ).newCrash();
+    public HockeyCustomCrash getCrash( final Throwable throwable_,
+				       final String userID_,
+				       final String message_ ) throws IOException,
+	    NameNotFoundException {
+	return new HockeyCrashBuilder( apiKey, env, throwable_, userID_, message_ ).newCrash();
     }
 
 
@@ -66,6 +83,17 @@ public class HockeyAppender extends AppenderSkeleton {
 
     private Throwable getThrowableFromLoggingEvent( final LoggingEvent loggingEvent_ ) {
 	return loggingEvent_.getThrowableInformation().getThrowable();
+    }
+
+
+    private String getUserID() {
+	// YMMV here
+	return "test@test.com";
+    }
+
+
+    private String getMessageFromLoggingEvent( final LoggingEvent loggingEvent_ ) {
+	return loggingEvent_.getMessage().toString();
     }
 
 

@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
 
+import javax.naming.NameNotFoundException;
+
 import org.apache.commons.lang.exception.ExceptionUtils;
 
 public class HockeyCrashBuilder {
@@ -36,36 +38,21 @@ public class HockeyCrashBuilder {
 	    final String environmentName_,
 	    final Throwable throwable_,
 	    final String userID_,
-	    final String contact_ ) throws IOException {
+	    final String description_ ) throws IOException {
 	this( apiKey_, environmentName_, throwable_ );
 	this.userID = userID_;
-	this.contact = contact_;
-    }
-
-
-    public HockeyCrashBuilder( final String apiKey_,
-	    final String environmentName_,
-	    final Throwable throwable_,
-	    final String description_,
-	    final File attachment_ ) throws IOException {
-
-	this( apiKey_, environmentName_, throwable_ );
-	this.attachment = attachment_;
-
-	if( description_ != null ) {
-	    createDescription( description_ );
-	}
+	createDescription( description_ );
     }
 
 
     public HockeyCustomCrash newCrash() {
 	return new HockeyCustomCrash( apiKey,
-					 environmentName,
-					 log,
-					 description,
-					 attachment,
-					 userID,
-					 contact );
+				      environmentName,
+				      log,
+				      description,
+				      attachment,
+				      userID,
+				      contact );
     }
 
 
